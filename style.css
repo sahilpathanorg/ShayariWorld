@@ -1,0 +1,646 @@
+:root {
+    --bg-dark: #07050f;
+    --bg-gradient: linear-gradient(145deg, #0a0614 0%, #1f1138 100%);
+    --gold: #dfb256;
+    --gold-glow: rgba(223, 178, 86, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-main: #f0f0f0;
+    --text-muted: #a8a2b8;
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-poetry: 'Playfair Display', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-heading);
+    background: var(--bg-dark);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Particles Background */
+#particles-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-gradient);
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold-glow);
+    animation: floatParticle 15s infinite linear;
+    opacity: 0.3;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+/* Glassmorphism Classes */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+}
+
+.gold-text {
+    color: var(--gold);
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 10px rgba(223, 178, 86, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(223, 178, 86, 0.5); }
+    100% { box-shadow: 0 0 10px rgba(223, 178, 86, 0.2); }
+}
+
+/* Typography elements */
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s ease;
+}
+
+button {
+    font-family: var(--font-heading);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    cursor: pointer;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+.nav-ai-btn {
+    background: linear-gradient(45deg, #1f1138, #30175c);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    font-weight: 500;
+    animation: glowPulse 3s infinite;
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* View Wrapper (for simulated hydration) */
+.view {
+    display: none;
+}
+.view.active {
+    display: block;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0 2rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: -webkit-linear-gradient(45deg, var(--gold), #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Typing text effect hack */
+.typing-line {
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid var(--gold);
+    display: inline-block;
+    animation: blinkCursor .7s step-end infinite;
+}
+
+@keyframes blinkCursor {
+    from, to { border-color: transparent }
+    50% { border-color: var(--gold); }
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+/* Mood Mode Selector */
+.mood-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+}
+
+.mood-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mood-btn:hover, .mood-btn.active-mood {
+    background: rgba(223, 178, 86, 0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+}
+
+/* Section Headings */
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+}
+
+/* Grid Layouts */
+.shayari-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.poets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+/* Shayari Card */
+.shayari-card {
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.shayari-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(223, 178, 86, 0.2);
+    border-color: rgba(223, 178, 86, 0.4);
+}
+
+.shayari-card-content {
+    font-family: var(--font-poetry);
+    font-size: 1.3rem;
+    line-height: 1.8;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    white-space: pre-line;
+}
+
+.shayari-meta {
+    font-size: 0.9rem;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 1rem;
+}
+
+.action-btn {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--gold);
+}
+
+/* Poet Card */
+.poet-card {
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.poet-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--gold);
+    transform: translateY(-5px);
+}
+
+.poet-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    margin: 0 auto 1rem;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--gold);
+    overflow: hidden;
+}
+
+.poet-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poet-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Poet Detail View */
+.poet-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+.poet-header .poet-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 3rem;
+}
+.poet-bio {
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 1rem auto;
+    line-height: 1.6;
+}
+
+.back-btn {
+    background: transparent;
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+/* AI Generator Form */
+.generator-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    border-radius: 20px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gold);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(223, 178, 86, 0.2);
+}
+
+.generate-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, #d4af37, #f3e5ab);
+    color: #000;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.generate-btn:hover {
+    box-shadow: 0 0 20px var(--gold-glow);
+    transform: scale(1.02);
+}
+
+#ai-output-area {
+    margin-top: 2rem;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid rgba(255,255,255,0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-left-color: var(--gold);
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+    display: none;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Footer */
+.footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+    margin-top: auto;
+}
+
+/* Watermark styles (applied during download) */
+.watermark {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+    font-family: var(--font-heading);
+}
+
+/* Ads Placeholder */
+.ad-slot {
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.2);
+    text-align: center;
+    padding: 1rem;
+    margin: 2rem auto;
+    position: relative;
+    border-radius: 8px;
+    max-width: 728px;
+    color: var(--text-muted);
+}
+.ad-badge {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0,0,0,0.5);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--gold);
+    color: #000;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* simple mobile handling */
+    }
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .shayari-grid {
+        grid-template-columns: 1fr;
+    }
+    .nav-search {
+        margin: 1rem auto;
+        width: 100%;
+        order: 3;
+    }
+    .nav-container {
+        flex-wrap: wrap;
+    }
+}
+
+/* Nav Search */
+.nav-search {
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--gold);
+    width: 300px;
+    transition: 0.3s;
+}
+.nav-search:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(223, 178, 86, 0.2);
+}
+.nav-search input {
+    background: transparent;
+    border: none;
+    color: white;
+    margin-left: 0.5rem;
+    outline: none;
+    width: 100%;
+    font-family: inherit;
+}
+.nav-search input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+/* Modal Open Shayari View */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    transform: scale(0.8);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, #1f1138, #0a0614);
+    border: 1px solid var(--gold);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow);
+}
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+.modal-close {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--gold);
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.modal-close:hover {
+    background: var(--gold);
+    color: black;
+}
+#modal-shayari-body {
+    font-family: var(--font-poetry);
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: #fff;
+    white-space: pre-line;
+}
+#modal-poet-name {
+    margin-top: 2rem;
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: var(--font-heading);
+}

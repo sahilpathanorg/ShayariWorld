@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayari World 🌙 - Feel Poetry, Feel Emotion</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="particles-bg"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <div class="logo" onclick="app.navigate('home')">Shayari World 🌙</div>
+            
+            <div class="nav-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="global-search" placeholder="Search shayari or poets..." onkeyup="app.handleSearch(event)">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#" onclick="app.navigate('home')">Home</a></li>
+                <li><a href="#" class="nav-ai-btn" onclick="app.navigate('ai-generator')"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="app-content">
+        <!-- Dynamic Content Renders Here -->
+    </main>
+
+    <footer class="glass footer">
+        <div class="footer-content">
+            <p>ShayariWorld.com © 2026</p>
+            <div class="monetization-links">
+                <a href="#" class="gold-text"><i class="fa-solid fa-book"></i> Premium Ebooks</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AdSense Placeholder -->
+    <div class="ad-slot ad-bottom">
+        <div class="ad-badge">AD</div>
+        <p>Featured Ad Space</p>
+    </div>
+
+    <!-- Modal Overlay for Expanded Shayari -->
+    <div id="shayari-modal" class="modal-overlay">
+        <div class="modal-content glass">
+            <button class="modal-close" onclick="app.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-shayari-body">
+                <!-- Dynamically injected -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden target container for HTML2Canvas Image Processing -->
+    <div id="canvas-clone-container" style="position: absolute; left: -9999px; top: -9999px; width: 600px;"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="data.js"></script>
+    <script src="scrift.js"></script>
+</body>
+</html>
