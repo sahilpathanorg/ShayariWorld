@@ -54,11 +54,20 @@ const app = {
         }, 0);
     },
 
-    openModal(text, poetName) {
+    openModal(text, poetName, id) {
         const modal = document.getElementById('shayari-modal');
         const body = document.getElementById('modal-shayari-body');
         const formattedText = text.replace(/\\n/g, '<br>');
-        body.innerHTML = formattedText + `<div id="modal-poet-name">- ${poetName}</div>`;
+        
+        let actionsHtml = `
+            <div class="modal-actions card-actions" style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1rem; justify-content: center; display: flex; gap: 1rem;">
+                <button class="action-btn" title="Copy" onclick="app.copyToClipboard('${text.replace(/'/g, "\\'")}')"><i class="fa-regular fa-copy"></i></button>
+                <button class="action-btn" title="Download & Save to Album" onclick="app.downloadCard('card-${id}')"><i class="fa-solid fa-download"></i></button>
+                <button class="action-btn" title="Share" onclick="app.shareShayari('${text.replace(/'/g, "\\'")}')"><i class="fa-solid fa-share-nodes"></i></button>
+            </div>
+        `;
+        
+        body.innerHTML = formattedText + `<div id="modal-poet-name">- ${poetName}</div>` + actionsHtml;
         modal.classList.add('open');
     },
 
@@ -98,6 +107,12 @@ const app = {
                     <h1>Feel Poetry, <span>Feel Emotion 🌙</span></h1>
                     <p>Discover the finest collection of Urdu and Hindi Shayari</p>
                     
+                    <div class="apk-download-container">
+                        <a href="Shayari%20World.apk" download class="download-apk-btn">
+                            💖 Download Shayari World App
+                        </a>
+                    </div>
+
                     <div class="mood-selector">
                         ${db.moods.map(m => `
                             <button class="mood-btn ${this.currentMood === m.id ? 'active-mood' : ''}" 
@@ -206,7 +221,7 @@ const app = {
         const cleanName = poetName.replace(/"/g, '&quot;');
         
         return `
-            <div class="shayari-card glass" id="card-${shayariObj.id || 'ai'}" onclick="app.openModal('${escapedText}', '${cleanName}')">
+            <div class="shayari-card glass" id="card-${shayariObj.id || 'ai'}" onclick="app.openModal('${escapedText}', '${cleanName}', '${shayariObj.id || 'ai'}')">
                 <div class="shayari-card-content">${shayariObj.text}</div>
                 <div class="shayari-meta">- ${poetName}</div>
                 <div class="card-actions">
@@ -264,10 +279,29 @@ const app = {
         }
     },
 
+    async shareApp() {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Shayari World 🌙',
+                    text: 'Discover the finest collection of Urdu and Hindi Shayari!',
+                    url: window.location.href
+                });
+            } catch (err) {
+                console.log('Error sharing app', err);
+            }
+        } else {
+            this.copyToClipboard(window.location.href);
+            this.showNotification('App Link copied!');
+        }
+    },
+
     downloadCard(cardId) {
-        this.showNotification('Generating image... please wait.');
+        this.showNotification('Saving to album... please wait.');
         const originalCard = document.getElementById(cardId);
         
+        if (!originalCard) return;
+
         // Create a dedicated wrapper for rendering to ensure consistent styling regardless of screen size
         const cloneContainer = document.getElementById('canvas-clone-container');
         cloneContainer.innerHTML = '';
@@ -277,13 +311,14 @@ const app = {
         const actions = clone.querySelector('.card-actions');
         if(actions) actions.remove();
         
-        // Ensure glassmorphism renders better in canvas (HTML2Canvas sometimes struggles with heavy backdrop-filter)
+        // Ensure glassmorphism renders better in canvas
         clone.style.background = 'linear-gradient(135deg, #1f1138, #0a0614)';
         clone.style.border = '1px solid #d4af37';
-        clone.style.width = '100%';
+        clone.style.width = '600px'; // fixed width for consistent image
         clone.style.height = 'auto';
         clone.style.padding = '40px';
         clone.style.transform = 'none'; // remove hover transform
+        clone.style.position = 'relative';
         
         // Add Watermark
         const watermark = document.createElement('div');
@@ -296,19 +331,34 @@ const app = {
         // Wait a small tick then render
         setTimeout(() => {
             html2canvas(clone, {
-                backgroundColor: null,
-                scale: 2 // High Resolution
+                backgroundColor: '#07050f', // Add solid background just in case
+                scale: 2, // High Resolution
+                useCORS: true
             }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'ShayariWorld.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                canvas.toBlob((blob) => {
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveOrOpenBlob(blob, 'ShayariWorld.png');
+                    } else {
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.style.display = 'none';
+                        link.href = url;
+                        link.download = `Shayari_${Date.now()}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        setTimeout(() => {
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(url);
+                            this.showNotification('Saved to your device! ✓');
+                        }, 100);
+                    }
+                }, 'image/png');
                 cloneContainer.innerHTML = ''; // Cleanup
             }).catch(err => {
                 console.error("Download failed:", err);
-                this.showNotification('Failed to generate image.');
+                this.showNotification('Failed to save image.');
             });
-        }, 100);
+        }, 300);
     },
 
     // 5. AI GENERATOR SIMULATION

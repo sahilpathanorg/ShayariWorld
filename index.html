@@ -37,6 +37,13 @@
 
     <main id="app-content">
         <!-- Dynamic Content Renders Here -->
+        <noscript>
+            <div class="apk-download-container">
+                <a href="Shayari%20World.apk" download class="download-apk-btn">
+                    💖 Download Shayari World App
+                </a>
+            </div>
+        </noscript>
     </main>
 
     <footer class="glass footer">
@@ -65,7 +72,27 @@
     </div>
 
     <!-- Hidden target container for HTML2Canvas Image Processing -->
-    <div id="canvas-clone-container" style="position: absolute; left: -9999px; top: -9999px; width: 600px;"></div>
+    <div id="canvas-clone-container" style="position: fixed; top: 0; left: 0; opacity: 0; pointer-events: none; z-index: -100;"></div>
+
+    <!-- Mobile Navigation Widget -->
+    <div class="mobile-nav-widget glass">
+        <button onclick="app.navigate('home')">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </button>
+        <button onclick="document.getElementById('global-search').focus(); window.scrollTo(0,0);">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+        </button>
+        <button class="gold-text" onclick="app.navigate('ai-generator')">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>AI Gen</span>
+        </button>
+        <button onclick="app.shareApp()">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share</span>
+        </button>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
